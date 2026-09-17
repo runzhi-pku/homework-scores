@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>作业成绩查询</title>
+  <style>
+    :root{color-scheme:light;--ink:#1b2925;--muted:#69716c;--line:#dde3dd;--green:#285445;--paper:#f5f6f0}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;line-height:1.6}button,input,select{font:inherit}
+    .shell{max-width:1080px;margin:auto;padding:28px 32px 48px}header{display:flex;align-items:center;gap:11px;border-bottom:1px solid var(--line);padding-bottom:20px;font-size:14px;font-weight:600}.mark{display:grid;place-items:center;width:32px;height:32px;border-radius:9px;background:var(--green);color:#fff;font-family:Georgia,serif;font-size:23px}.header-note{margin-left:auto;font-size:12px;color:var(--muted);font-weight:400}
+    main{display:grid;grid-template-columns:1fr 460px;gap:70px;align-items:start;padding:78px 0 70px}.intro{padding-top:28px}.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--green);font-weight:650}.intro h1{font-size:42px;letter-spacing:-.04em;line-height:1.3;margin:17px 0 20px;font-weight:650}.lead{font-size:16px;color:var(--muted);max-width:340px;margin:0}.course{margin-top:44px;padding-top:21px;border-top:1px solid var(--line);font-size:14px}.term{color:var(--muted);font-size:12px;margin-top:5px}
+    .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:30px;box-shadow:0 9px 28px #26382b06}.card h2{font-size:19px;margin:0 0 5px}.card-description{margin:0 0 23px;color:var(--muted);font-size:13px}.field{margin-top:18px}label{display:block;font-size:13px;font-weight:600;margin-bottom:7px}input,select{width:100%;border:1px solid #ccd5cc;border-radius:9px;background:#fff;color:var(--ink);padding:11px 12px;min-height:47px;outline:none;transition:border-color .15s,box-shadow .15s}input::placeholder{color:#939b94}input:focus,select:focus{border-color:var(--green);box-shadow:0 0 0 3px #28544512}input[aria-invalid=true]{border-color:#a34538}.hint{color:var(--muted);font-size:12px;margin:7px 0 0}.submit{display:block;width:100%;margin-top:25px;border:0;border-radius:9px;background:var(--green);color:#fff;min-height:48px;padding:12px 16px;font-size:14px;font-weight:600;cursor:pointer}.submit:hover{background:#1c4335}.submit:focus-visible,.clear:focus-visible{outline:3px solid #89b1a1;outline-offset:3px}.submit:disabled{opacity:.6;cursor:wait}.error{font-size:13px;color:#943c2f;margin:16px 0 0}.result{margin-top:23px;padding:21px;border:1px solid #c9dfd0;border-radius:12px;background:#f2f8f2}.result[data-state=missing]{border-color:#e3d6bb;background:#faf6ed}.result-caption{font-size:12px;color:var(--muted)}.grade{font-size:44px;font-weight:700;line-height:1.2;margin:9px 0}.result[data-state=missing] .grade{font-size:32px;color:#7e5b20}.result-person{font-size:13px}.result-note{font-size:12px;color:var(--muted);margin:8px 0 0}.clear{border:0;background:none;padding:0;color:var(--green);font-size:12px;text-decoration:underline;cursor:pointer;margin-top:14px}.footnote{font-size:12px;color:var(--muted);text-align:center;margin:18px 0 0}footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:10px}[hidden]{display:none!important}
+    @media(max-width:800px){.shell{max-width:530px;padding:21px 20px 30px}main{display:block;padding:32px 0 36px}.intro{padding:0}.intro h1{font-size:31px;margin:9px 0 12px}.lead{font-size:14px;max-width:none}.course{margin:22px 0 26px;padding:15px 0 0}.term{display:inline;margin-left:9px}.card{padding:24px}.header-note{font-size:11px}footer{display:block}footer span{display:block;margin-bottom:3px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header><span class="mark" aria-hidden="true">∑</span><span>课程作业</span><span class="header-note">成绩查询</span></header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div class="eyebrow">COURSE ASSIGNMENTS</div>
+      <h1 id="page-title">每一次练习，<br>都有反馈。</h1>
+      <p class="lead">输入姓名和学号，查看已发布的作业成绩及提交情况。</p>
+      <div class="course"><strong id="course-name">高等数学 A（一）</strong><div class="term" id="course-term"></div></div>
+    </section>
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">作业成绩查询</h2>
+      <p class="card-description">请填写课程名单中的姓名和 10 位学号。</p>
+      <form id="lookup-form" autocomplete="off" novalidate>
+        <div class="field"><label for="assignment">查询作业</label><select id="assignment" required></select></div>
+        <div class="field"><label for="student-name">姓名</label><input id="student-name" type="text" placeholder="请输入完整姓名" maxlength="80" required autocomplete="off" spellcheck="false"></div>
+        <div class="field"><label for="student-id">学号</label><input id="student-id" type="text" placeholder="请输入 10 位学号" maxlength="20" inputmode="numeric" required autocomplete="off" spellcheck="false" aria-describedby="id-hint"><p class="hint" id="id-hint">姓名和学号需同时匹配。</p></div>
+        <button class="submit" id="query-button" type="submit">查询成绩</button>
+      </form>
+      <p id="error" class="error" role="alert" hidden></p>
+      <section id="result" class="result" aria-live="polite" aria-atomic="true" tabindex="-1" hidden>
+        <div class="result-caption" id="result-title"></div><div class="grade" id="grade"></div><div class="result-person" id="result-person"></div><p class="result-note" id="result-note"></p><button class="clear" id="clear-button" type="button">清除查询结果</button>
+      </section>
+      <p class="footnote">无需注册或登录</p>
+      <noscript><p class="error">请启用浏览器的 JavaScript 后查询成绩。</p></noscript>
+    </section>
+  </main>
+  <footer><span>成绩有疑问，请联系任课教师或助教。</span><span id="updated-at"></span></footer>
+</div>
+<script id="gradebook" type="application/json">{"format":"homework-lookup-v1","course":"高等数学 A（一）","term":"2026—2027 学年第一学期","assignments":[{"id":"作业1","label":"作业1","updatedAt":"2026-09-16T17:55:50.623Z","salt":"eum9UV2J1LZpZr7xh8BKHyWkeY92ILhr","iterations":600000,"records":{"Od8tjj5yT5E3kgwbMKeh4F70n8v+562SydBpGn0p5iQ=":{"iv":"obrzlwvcXdcds3l1","data":"q5g0wDaDE0/N0akN8T8GVPKVdUQx7SvXnjUkpiA="},"xkA+eXr7nrmK0mC3OtX5Xk8NOScTAzOfQEvgj1LRhSo=":{"iv":"c39hrfthzzFQ3L94","data":"DAF4aN484lpjgqMT/ZVFz6pEjK4PqXdxdALVaFc="},"9Efpbzfskkq9cmqMfN9wn/oJv6POWK3CCLcRiKmq/Zs=":{"iv":"njFX20y6Nx1Pfg4s","data":"sSPZyCWD+c+L5SVHwzkqGpiPDEfm9a3ga1AHlUM="},"qCMGqJ5KRCq9mXPWoFgaYTgR04p4FzwEQ3Kvq764rFU=":{"iv":"8PUbW62UkPH3W0nI","data":"guXQ0gwgabuDD6WEjrbZt7hNg4qHd6MTFLHVMAVg"},"23PRJ1K5fcGfhfJRFAweR31VCOVHRpZdzYxyZIKN3o0=":{"iv":"V5mp6Tl7VOAknYkc","data":"vR5qDcuKnYKtkNu1JDUYWuaIVdJdD9MpObvmTkE="},"WJ6D+EAr0XWT+5ZiKehn6lgtt+zuKFEn46GOB5Y7sdQ=":{"iv":"mojF48NyuPbPcQ3h","data":"oUvCYqDDlbvsdmjm0wn6k1izdUtIlDV2uBcQ8KC/"},"wIV8E7tJhyQHXKriUsoJE1DLX7T7dp1bi94UvxMEGvs=":{"iv":"DmQkUvqH3bIo0dxE","data":"6PWieZM40XYfs/x70Ptq0aIgK7Ho/p5449slCciM"},"MOQYKU1JotZDI1I78E4m6EFT/DOKA2eETkPYoKh0cvs=":{"iv":"qqqj8TpHSvSwKASZ","data":"DanFOFJzVGY0lZ+QD+WGi8r5pOISQfAYWODof4xL"},"RFjrHThsyww65EQdyYNCZeA7jr5+3u5SNDmrJJscEBU=":{"iv":"c4Vuv9t3jFIViN4A","data":"X66hl33oweeoTBM+PGyYt0Jl8XLRTZBZ4TPI+s3+"},"cA3IP5gdvh4gszdWQaMyzgSHOD1wUldhXf3stg0zxug=":{"iv":"ZaPAVq/b9KCUt4/y","data":"kt6QhaoU4wmI2cMInxRFVmzCr8sFwblnYD/BjUw="},"DdeUEDjwEbp3k8rz1/NmP4xv28hD5tMTa36PBELJz7o=":{"iv":"gSrO1UQKPL5H8/Qx","data":"AFoQWMDXoyFNnM3HlzluVEK8y4QX062qDdfR/fW/"},"uEsaA6sfcM7mBYIYLn/OtgM/kgWIL8MyOPqOqJwVsKA=":{"iv":"1vpiIEIZn68RWaIa","data":"hWmg/sZ31QXp1obPrs3zQSgJQTDAIbiLcqnRtT0="},"hXUSb8yD+AoGB0+UTvwEDW304pL8JpcOw5Aui5BlIRo=":{"iv":"0n1Nbde2OIqVG1Zl","data":"UtUEpU6yWKkIQTg9ipvFm2cHIZQYZ60i+CCvzViL"},"+IPBkhQT6a3Q7qCZsE2/B/r8AxXJCDn0YCcUWQsKJCM=":{"iv":"QQinzelQwUZgUmmB","data":"QppBrZjY1YScLCdPO/DDk6PPNRzI2KeO7Dkbv2U="},"29b+17FVEY2NDUcejGnpufw2SyLCYJ6a/PUnnH8oq9Y=":{"iv":"vg8+kL2j360IML+4","data":"uGqP4wopwvlDS/37MpGeTX+M5fGuoon/Y/gpwrU="},"dv7IUpKOClmwcAC60WVoSJDxdE+VRdVaPjPH0ZqLG4E=":{"iv":"QRh20oIRPiUNHiHT","data":"H7uPqAiR1LLG/zlqJzg55FknUPPmQbu1DYniFT/a"},"oQoFYz48PX+VOx054EAMMzeIYtaud+S+WEt4UD/9WWk=":{"iv":"PZACpLWROiI/KlX1","data":"3jDuo3TUfsJrjKQq/Pn5/tUDS99zMqkrdPAlcFU="},"RDAHtPeAkZyn46th4Js7wBHOq75peKP/DJSGE2TwkPI=":{"iv":"Tr9w/utR0PH/Ix7M","data":"a8Bh4pVSlF0Nh0khlQ5vPzfkLTwALFCu2FZndbGg"},"0fWhZIDva+bMpX1aSfYQm3aA3a+NSrrGRM1qzMHdHs8=":{"iv":"LLSRkp2x+Je9nl95","data":"572NPVlw6WL8mY0tPJI3qRgLGQJfmmccdfmfEkM="},"jHZBAuGZJKmUhl5y5XnrJYEgzCTIvOlaGWApfhY4b6s=":{"iv":"wwvT+mJ2dND/Gqru","data":"PWc8RonndK7QkHChBkXmKsi+GX9HK29ogSs3xAU="},"cyOuE5m+LfjxaGz+C6K3sRgmrmGuv+HNOmcEBv7OIFc=":{"iv":"4yQkoxC6pJQc3cib","data":"NzJ+lF1SzsMHb2EyLZ+MbQJKelf/n+UiSybS0nU="},"ag8+mBgYxFbvTicARvPO7CRQUXnfd/4k1PiS+nlpvmk=":{"iv":"i2OpaEp31MiKdM0f","data":"ODe++lWYH68Xacj1QxS2T1zbdcRNIHfAxLszWKQ="},"tvKywnkSZWQBme19hoK/enoJwvchxleS1AsrXFzp3S4=":{"iv":"G8mv5tnhY7Za/feA","data":"iPo/VsRvBtnm2los3yRm6LA2OhvgGT1gPZkaMebf"},"8N6j2hevIQ4lBlGzkrA7LX8Ptd25dwnX2IPZEYlTU0o=":{"iv":"uxiBVjgpg8rMNVBm","data":"UangOaknKTY50Jpb2MOdX0C+0ogwICCfOgS7VZl5"},"ZF6sL3IJfbSYjOBWKP0aW25hrLmVqcSCITVPLQIJwKI=":{"iv":"aVNsub86sWVgrjOX","data":"nS/Um3gUHkKLCURhw6DHL0bg9aAxAyDqZwDBBtg="},"r0FOgTEjyk2RMpRbir9NZ6g0WTjjl3n0ing8WdA3BKI=":{"iv":"wOyYccIVMcxTKTzR","data":"BwTdyPtgJx6iU2a6dgtUJ4ueBloJc/jYlChT8ehl"},"m3C9xA8btei+Ae6r/4qfKBQW+CCOPp9njQkJJqLuKyU=":{"iv":"hUg8dS6JKIVgFLdy","data":"jZHje0UA4VnurnjCepXHMNDCb0CSU0opQhYK880="},"6U2Ljwh6ejc6XsBsSwlQGfZbUGeZT7DXw19Gvv3KSgc=":{"iv":"511SXSNUUquojQhr","data":"tO0hQBzSyGT5s/a6q5Cn1qnYg/WAga3rC/2/HYWz"},"V4/zusjC8fDZPsseCYggsGNlsdJOdI3+xozRQYLhQ+o=":{"iv":"W84jR9ssXaDjmM8P","data":"0u2KzwJGGuSucwu7sQg2rbtRL+ey0YKJbfSayH6nJCA3Zg=="},"2E0bE8tCZ8chMISaGscd5Aq/QCQrJvui6lozAtG/Dxw=":{"iv":"CQt+FNzrMnk+UjYs","data":"seFnguapJdlzBRmiliYDDsYE7pLqOp442nHGrhg="},"Iuh0jRSOYjSILWBFOxwERwlozmNqlBBTFhEdFT025yg=":{"iv":"gSaPWt7ZKwPWTl/h","data":"lwT1bTNEGSVyeSy90O7M9qV53U4c8WuGK31Ku4vs"},"xJsSxG36vsSMpBHGoF20/mQCkwNnhxbeN/Utl5sPRmU=":{"iv":"uk/5XRP5SdVTyNf0","data":"yGUxaNOBHP9Qa76tOzFCd0Tc3lMUBEvpJBDmJxo="},"W5pv3OILQcX00iSdjgXb8I3Ck7TXPuASVEmlZPM7V4Y=":{"iv":"Z2WPEQaaVmcae+Os","data":"Y0oSM2GMPQQsLT4d8XbtCO3x/rAxNlIjgx7oGFE="},"LKCjQc9Y4WfrCQR52DXaYwKsbtzhUdIQiDojRJIThls=":{"iv":"GtTsj/tfJ+8uZA+m","data":"BDMSqi2w9j64mw4G8yJCA67UDceZmUvMkk0NiAE="},"1euY12b+KYDEG+eWYm9Kz8Ea22YjKNmIiZUG2qbb3FA=":{"iv":"rUA6gw6bzjiKiIEB","data":"x4q+xCCGQ6rzM0/EQUNqgBnAvEmZcJMhhOAwX6o="},"QZCnUN/DAq93yuqBly+1NDzA9CdWVgziF+vRV1DkQgM=":{"iv":"PvEF0urKDk6t5SDW","data":"Q9CHSxt2KUxCqKVhw3xX/bgjpWheQWk6WwXmZMo="},"6BUjOMugbLfUmIajZCMumINq/MrfSC3x5NkoYBcRpbU=":{"iv":"QD6JvEGs4hIDlkzl","data":"rQl+4ZWCLlCfL4FsNCMawOHt8LlMaVt4jqrc2Nc="},"zl73HkpsgDiaJHCH55fFMMa9aIy+thNrZ1BNUfCbETM=":{"iv":"OWhUseGfEZff0AH4","data":"vpLc7F5RIOj1CYsGqLYsdXfo9lkMoMdneepZ0m2TLdrhig=="},"Sqx81W6h9q7tDgXFPbfGAVbcpUzqe/jZKMtpdUbVMtQ=":{"iv":"UCJXeo376x0avgMR","data":"WFjXKPz5ckttzgu8xESbMwxPyC3NM/mX8uJMkyE="},"wcwf/iVwV3h/c8ftw3dnEwegr0vxh+q2seCytRohWns=":{"iv":"uLEU9/JKEyxAWqiw","data":"avIWk79+grqMr8oQKMzW/ktahO1jtA4m6bMutJU="}}}]}</script>
+<script>
+/* Shared by the student page and the local update tool. No network requests. */
+const GradeCrypto = (() => {
+  const encoder = new TextEncoder();
+  const decoder = new TextDecoder();
+  const ITERATIONS = 600000;
+  const normalize = (s) => String(s ?? '').normalize('NFKC').trim();
+  const to64 = (bytes) => btoa(String.fromCharCode(...new Uint8Array(bytes)));
+  const from64 = (s) => Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
+  const random64 = (n) => to64(crypto.getRandomValues(new Uint8Array(n)));
+  const serialize = (value) => JSON.stringify(value).replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+  function checkIdentity(name, studentId) {
+    name = normalize(name); studentId = normalize(studentId);
+    if (!name || name.length > 80 || /[\u0000-\u001f\u007f]/.test(name)) throw new Error('请填写完整姓名。');
+    if (!/^\d{10}$/.test(studentId)) throw new Error('请填写 10 位数字学号。');
+    return {name, studentId};
+  }
+  function checkBook(book) {
+    if (!book || book.format !== 'homework-lookup-v1' || !Array.isArray(book.assignments)) throw new Error('这不是本工具生成的查分网站文件。');
+    for (const a of book.assignments) {
+      if (!a.id || !a.label || !a.salt || !a.records || Array.isArray(a.records) || !Number.isInteger(a.iterations) || a.iterations < 100000 || a.iterations > 2000000) throw new Error('网站成绩数据格式不正确。');
+    }
+    return book;
+  }
+  async function material(name, studentId, salt, iterations) {
+    const identity = checkIdentity(name, studentId);
+    const password = encoder.encode(JSON.stringify([identity.name, identity.studentId]));
+    const root = await crypto.subtle.importKey('raw', password, 'PBKDF2', false, ['deriveBits']);
+    const bits = await crypto.subtle.deriveBits({name:'PBKDF2', hash:'SHA-256', salt:from64(salt), iterations}, root, 256);
+    const hmac = await crypto.subtle.importKey('raw', bits, {name:'HMAC',hash:'SHA-256'}, false, ['sign']);
+    const [index, keyBytes] = await Promise.all([
+      crypto.subtle.sign('HMAC', hmac, encoder.encode('homework-lookup:index:v1')),
+      crypto.subtle.sign('HMAC', hmac, encoder.encode('homework-lookup:encryption:v1'))
+    ]);
+    const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['encrypt','decrypt']);
+    return {index:to64(index), key};
+  }
+  const aad = (assignmentId, index) => encoder.encode(JSON.stringify(['homework-lookup-v1', assignmentId, index]));
+  async function createAssignment(label, rows, progress = () => {}) {
+    const assignment = {id:normalize(label),label:normalize(label),updatedAt:new Date().toISOString(),salt:random64(24),iterations:ITERATIONS,records:{}};
+    if (!assignment.id || assignment.id.length > 60) throw new Error('请填写不超过 60 字的作业名称。');
+    if (!rows.length) throw new Error('没有可以发布的学生记录。');
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i];
+      const {index,key} = await material(row.name,row.studentId,assignment.salt,assignment.iterations);
+      if (Object.hasOwn(assignment.records,index)) throw new Error('存在重复的姓名与学号，请先删除重复行。');
+      const iv = random64(12);
+      const grade = row.grade == null || normalize(row.grade) === '' ? '未交' : normalize(row.grade);
+      const encrypted = await crypto.subtle.encrypt({name:'AES-GCM',iv:from64(iv),additionalData:aad(assignment.id,index)},key,encoder.encode(serialize({grade})));
+      assignment.records[index] = {iv, data:to64(encrypted)};
+      progress(i + 1, rows.length);
+    }
+    return assignment;
+  }
+  async function lookup(assignment, name, studentId) {
+    const {index,key} = await material(name,studentId,assignment.salt,assignment.iterations);
+    const record = assignment.records[index];
+    if (!record) return null;
+    const clear = await crypto.subtle.decrypt({name:'AES-GCM',iv:from64(record.iv),additionalData:aad(assignment.id,index)},key,from64(record.data));
+    const result = JSON.parse(decoder.decode(clear));
+    if (typeof result.grade !== 'string') throw new Error('成绩记录格式不正确。');
+    return result;
+  }
+  return {normalize,checkIdentity,checkBook,createAssignment,lookup,serialize};
+})();
+
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const form=$('lookup-form'), button=$('query-button'), nameInput=$('student-name'), idInput=$('student-id');
+  let book, revision=0, busy=false;
+  const showError=(message)=>{$('error').textContent=message;$('error').hidden=false;};
+  const clearResult=()=>{revision++;$('result').hidden=true;$('error').hidden=true;nameInput.removeAttribute('aria-invalid');idInput.removeAttribute('aria-invalid');};
+  function showDate(){const a=book.assignments.find(x=>x.id===$('assignment').value);$('updated-at').textContent=a?'更新于 '+new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date(a.updatedAt)):'';}
+  try {
+    if (!globalThis.crypto?.subtle) throw new Error('当前浏览器不支持查询，请使用新版 Chrome、Edge 或 Safari，并通过 HTTPS 链接打开。');
+    book=GradeCrypto.checkBook(JSON.parse($('gradebook').textContent));
+    $('course-name').textContent=book.course; $('course-term').textContent=book.term;
+    for(const a of book.assignments){const option=document.createElement('option');option.value=a.id;option.textContent=a.label;$('assignment').append(option);}
+    if(!book.assignments.length) throw new Error('尚未发布作业成绩。');
+    $('assignment').value=book.assignments.at(-1).id;
+    showDate();
+  } catch(error){showError(error.message);button.disabled=true;return;}
+  [nameInput,idInput].forEach(input=>input.addEventListener('input',clearResult));
+  $('assignment').addEventListener('change',()=>{clearResult();showDate();});
+  $('clear-button').addEventListener('click',()=>{form.reset();$('assignment').value=book.assignments.at(-1).id;clearResult();showDate();nameInput.focus();});
+  window.addEventListener('pagehide',()=>{form.reset();clearResult();});
+  window.addEventListener('pageshow',()=>{form.reset();$('assignment').value=book.assignments.at(-1).id;clearResult();showDate();});
+  form.addEventListener('submit',async(event)=>{
+    event.preventDefault();if(busy)return;clearResult();
+    let identity;
+    try {identity=GradeCrypto.checkIdentity(nameInput.value,idInput.value);}catch(error){const input=GradeCrypto.normalize(nameInput.value)?idInput:nameInput;input.setAttribute('aria-invalid','true');showError(error.message);input.focus();return;}
+    const assignment=book.assignments.find(a=>a.id===$('assignment').value), queryRevision=revision;
+    busy=true;button.disabled=true;button.textContent='正在查询…';form.setAttribute('aria-busy','true');
+    try {
+      const found=await GradeCrypto.lookup(assignment,identity.name,identity.studentId);
+      if(queryRevision!==revision)return;
+      if(!found){showError('姓名与学号未匹配，请核对输入；仍无法查询时请联系助教。');return;}
+      const missing=found.grade==='未交';
+      $('result-title').textContent=assignment.label+' · 查询结果';$('grade').textContent=found.grade;
+      $('result-person').textContent=identity.name+' · '+identity.studentId;
+      $('result-note').textContent=missing?'本次作业暂无提交记录。':'已记录本次作业成绩。';
+      $('result').dataset.state=missing?'missing':'graded';$('result').hidden=false;$('result').focus();
+    } catch {if(queryRevision===revision)showError('暂时无法读取成绩，请刷新后重试，或联系助教。');}
+    finally {busy=false;button.disabled=false;button.textContent='查询成绩';form.removeAttribute('aria-busy');}
+  });
+})();
+</script>
+</body>
+</html>
